@@ -46,7 +46,10 @@ class DemoContent
         }x
 
         body = page.body.content.gsub(re) do |match|
-          with_attachment($1) { |attachment| page.body.uploads.attach(attachment) }
+          blob = with_attachment($1) do |attachment|
+            ActiveStorage::Blob.create_and_upload!(io: attachment[:io], filename: attachment[:filename])
+          end
+          page.body.uploads.attach(blob)
 
           attachment = page.body.uploads.attachments.last
           attachment.analyze
