@@ -41,7 +41,9 @@ class IssueRenderer
     end
 
     def render_markdown(content)
-      ActionText::Markdown.new(content).to_html
+      renderer = Redcarpet::Render::HTML.new(ActionText::Markdown::DEFAULT_RENDERER_OPTIONS)
+      markdown = Redcarpet::Markdown.new(renderer, ActionText::Markdown::DEFAULT_MARKDOWN_EXTENSIONS)
+      markdown.render(content.to_s)
     end
 
     def strip_markdown(text)

@@ -29,7 +29,9 @@
   <% end %>
 
   <div class="margin-block pad fill-shade border-radius">
-    <%= raw ActionText::Markdown.new(@generated_article.body_with_attribution).to_html %>
+    <% renderer = Redcarpet::Render::HTML.new(ActionText::Markdown::DEFAULT_RENDERER_OPTIONS) %>
+    <% markdown = Redcarpet::Markdown.new(renderer, ActionText::Markdown::DEFAULT_MARKDOWN_EXTENSIONS) %>
+    <%= raw markdown.render(@generated_article.body_with_attribution.to_s) %>
   </div>
 
   <% if @generated_article.pending? %>
