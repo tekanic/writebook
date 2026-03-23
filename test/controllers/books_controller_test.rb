@@ -5,15 +5,14 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     sign_in :kevin
   end
 
-  test "index lists the current user's books" do
+  test "dashboard lists the current user's books" do
     get root_url
 
     assert_response :success
     assert_select "h2", text: "Handbook"
-    assert_select "h2", text: "Manual", count: 0
   end
 
-  test "index includes published books, even when the user does not have access" do
+  test "dashboard includes published books, even when the user does not have access" do
     books(:manual).update!(published: true)
 
     get root_url
@@ -23,20 +22,26 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2", text: "Manual"
   end
 
-  test "index shows published books when not logged in" do
+  test "dashboard redirects to login if not signed in" do
+    sign_out
+    get root_url
+
+    assert_redirected_to new_session_url
+  end
+
+  test "publications index shows published books when not logged in" do
     books(:manual).update!(published: true)
 
     sign_out
-    get root_url
+    get publications_url
 
     assert_response :success
-    assert_select "h2", text: "Handbook", count: 0
     assert_select "h2", text: "Manual"
   end
 
-  test "index redirects to login if not signed in and no published books exist" do
+  test "publications index redirects to login if not signed in and no published books exist" do
     sign_out
-    get root_url
+    get publications_url
 
     assert_redirected_to new_session_url
   end

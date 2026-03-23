@@ -2,19 +2,19 @@ require "test_helper"
 
 class Book::AccessableTest < ActiveSupport::TestCase
   test "update_access always grants read access to everyone when everyone_access is set" do
-    book = Book.create!(title: "My new book")
+    book = Book.create!(title: "My new book", account: accounts(:signal))
     book.update_access(editors: [], readers: [])
 
     assert book.everyone_access?
 
-    User.all.each do |user|
+    User.for_account(accounts(:signal)).each do |user|
       assert book.accessable?(user: user)
       assert_not book.editable?(user: user) unless user.administrator?
     end
   end
 
   test "update_access updates existing access" do
-    book = Book.create!(title: "My new book", everyone_access: false)
+    book = Book.create!(title: "My new book", everyone_access: false, account: accounts(:signal))
 
     book.update_access(editors: [ users(:kevin).id ], readers: [])
     assert book.editable?(user: users(:kevin))
@@ -25,7 +25,7 @@ class Book::AccessableTest < ActiveSupport::TestCase
   end
 
   test "update_access removes stale accesses" do
-    book = Book.create!(title: "My new book", everyone_access: false)
+    book = Book.create!(title: "My new book", everyone_access: false, account: accounts(:signal))
 
     book.update_access(editors: [ users(:kevin).id ], readers: [ users(:jz).id ])
     assert_equal 2, book.accesses.size
