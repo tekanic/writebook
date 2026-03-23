@@ -18,7 +18,7 @@
 <% end %>
 
 <% content_for :toolbar do %>
-  <nav class="flex align-center justify-center gap-half pad-half">
+  <nav class="flex align-center justify-center gap-half pad-half flex-wrap">
     <%= link_to marketplace_index_path, class: "btn btn--plain txt-small" do %>
       <%= image_tag "globe.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
       <span>Marketplace</span>
@@ -30,9 +30,24 @@
     <% end %>
 
     <% if Current.user.can_administer? %>
+      <%= link_to account_sending_domains_path, class: "btn btn--plain txt-small" do %>
+        <%= image_tag "email.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Domains</span>
+      <% end %>
+
       <%= link_to billing_path, class: "btn btn--plain txt-small" do %>
         <%= image_tag "crown.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
         <span>Billing</span>
+      <% end %>
+
+      <%= link_to users_path, class: "btn btn--plain txt-small" do %>
+        <%= image_tag "people.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Team</span>
+      <% end %>
+
+      <%= link_to edit_account_custom_styles_path, class: "btn btn--plain txt-small" do %>
+        <%= image_tag "art.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Styles</span>
       <% end %>
     <% end %>
 
