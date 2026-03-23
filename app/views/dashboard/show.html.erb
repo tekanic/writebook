@@ -17,6 +17,34 @@
   </nav>
 <% end %>
 
+<% content_for :toolbar do %>
+  <nav class="flex align-center justify-center gap-half pad-half">
+    <%= link_to marketplace_index_path, class: "btn btn--plain txt-small" do %>
+      <%= image_tag "globe.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+      <span>Marketplace</span>
+    <% end %>
+
+    <%= link_to ad_creatives_path, class: "btn btn--plain txt-small" do %>
+      <%= image_tag "page-picture.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+      <span>My Ads</span>
+    <% end %>
+
+    <% if Current.user.can_administer? %>
+      <%= link_to billing_path, class: "btn btn--plain txt-small" do %>
+        <%= image_tag "crown.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Billing</span>
+      <% end %>
+    <% end %>
+
+    <% if Current.user.platform_admin? %>
+      <%= link_to admin_dashboard_path, class: "btn btn--plain txt-small" do %>
+        <%= image_tag "lock.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Admin</span>
+      <% end %>
+    <% end %>
+  </nav>
+<% end %>
+
 <div class="library">
   <% if @books.any? %>
     <%= render @books %>

@@ -30,6 +30,28 @@
   <%= render @users %>
 </div>
 
+<% if Current.user.can_administer? %>
+  <div class="panel borderless center pad fill-none flex flex-column gap margin-block">
+    <h2 class="txt-medium">Account Settings</h2>
+    <div class="flex gap-half flex-wrap">
+      <%= link_to account_sending_domains_path, class: "btn btn--plain txt-small fill-shade border-radius pad-half" do %>
+        <%= image_tag "email.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Sending Domains</span>
+      <% end %>
+
+      <%= link_to billing_path, class: "btn btn--plain txt-small fill-shade border-radius pad-half" do %>
+        <%= image_tag "crown.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Billing & Plan</span>
+      <% end %>
+
+      <%= link_to edit_account_custom_styles_path, class: "btn btn--plain txt-small fill-shade border-radius pad-half" do %>
+        <%= image_tag "art.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
+        <span>Custom Styles</span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <% content_for(:footer) do %>
   <div class="txt-align-center center margin-block-double txt-subtle">BookSend&trade; version <%= version_badge %></div>
 <% end %>
