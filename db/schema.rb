@@ -144,7 +144,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_03_23_000001) do
     t.datetime "created_at", null: false
     t.string "cta_text", default: "Learn more"
     t.string "destination_url"
-    t.string "headline", null: false
+    t.string "headline"
     t.string "status", default: "draft"
     t.datetime "updated_at", null: false
   end

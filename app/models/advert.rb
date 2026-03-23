@@ -3,7 +3,7 @@ class Advert < ApplicationRecord
 
   has_one_attached :image
 
-  validates :headline, presence: true, length: { maximum: 100 }
+  validates :headline, length: { maximum: 100 }
   validates :body_text, length: { maximum: 500 }
   validates :destination_url, format: { with: /\Ahttps?:\/\//i, message: "must be a valid URL" }, allow_blank: true
   validates :cta_text, length: { maximum: 30 }

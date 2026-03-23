@@ -6,6 +6,11 @@ class AdvertsController < LeafablesController
 
     def leafable_params
       params.fetch(:advert, {}).permit(:headline, :body_text, :destination_url, :cta_text, :advertiser_name, :image)
+        .with_defaults(headline: default_headline)
+    end
+
+    def default_headline
+      params.dig(:leaf, :title) || "Advertisement"
     end
 
     def default_leaf_params
