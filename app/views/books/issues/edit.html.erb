@@ -1,0 +1,12 @@
+<% content_for(:title) { "Edit Issue — #{@issue.subject}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_issue_path(@book, @issue), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to issue</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<%= render "books/issues/form", book: @book, issue: @issue, available_leaves: @available_leaves %>

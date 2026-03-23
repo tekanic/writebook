@@ -1,3 +1,4 @@
 signal:
   name: 37signals
   join_code: cs3s-enl1-EKC3
+  subdomain: signal

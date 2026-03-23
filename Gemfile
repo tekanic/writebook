@@ -6,14 +6,13 @@ gem "rails", github: "rails/rails"
 
 # Drivers
 gem "sqlite3", "~> 2.5"
-gem "redis", ">= 4.0.1"
 
 # Deployment
 gem "puma", ">= 5.0"
 
-# Jobs
-gem "resque", "~> 2.6.0"
-gem "resque-pool", "~> 0.7.1"
+# Jobs & Cache
+gem "solid_queue"
+gem "solid_cache"
 
 # Front-end
 gem "propshaft"
@@ -31,6 +30,21 @@ gem "rqrcode"
 gem "thruster"
 gem "useragent", github: "basecamp/useragent"
 gem "front_matter_parser"
+
+# Email delivery
+gem "resend"
+
+# Payments
+gem "stripe"
+
+# AI
+gem "ruby_llm"
+
+# Email processing
+gem "premailer-rails"
+
+# Rate limiting
+gem "rack-attack"
 
 group :development, :test do
   gem "debug"

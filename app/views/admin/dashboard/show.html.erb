@@ -1,0 +1,45 @@
+<% content_for(:title) { "Admin Dashboard — BookSend" } %>
+
+<h1>Platform Dashboard</h1>
+
+<div class="flex gap margin-block">
+  <div class="flex-item-grow pad fill-shade border-radius">
+    <div class="txt-xx-large"><%= @total_accounts %></div>
+    <div class="txt-subtle">Accounts</div>
+  </div>
+  <div class="flex-item-grow pad fill-shade border-radius">
+    <div class="txt-xx-large"><%= @total_users %></div>
+    <div class="txt-subtle">Active Users</div>
+  </div>
+  <div class="flex-item-grow pad fill-shade border-radius">
+    <div class="txt-xx-large"><%= @total_subscribers %></div>
+    <div class="txt-subtle">Active Subscribers</div>
+  </div>
+  <div class="flex-item-grow pad fill-shade border-radius">
+    <div class="txt-xx-large"><%= @total_campaigns %></div>
+    <div class="txt-subtle">Total Campaigns</div>
+  </div>
+</div>
+
+<div class="flex gap margin-block">
+  <div class="flex-item-grow">
+    <h2 class="txt-medium margin-block-end-half">Recent Campaigns</h2>
+    <% @recent_campaigns.each do |campaign| %>
+      <div class="pad-half fill-shade border-radius margin-block-end-half">
+        <strong><%= campaign.issue&.subject %></strong>
+        <span class="badge"><%= campaign.status.titleize %></span>
+        <span class="txt-small txt-subtle"><%= campaign.sent_count %> sent</span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex-item-grow">
+    <h2 class="txt-medium margin-block-end-half">Recent Audit Logs</h2>
+    <% @recent_audit_logs.each do |log| %>
+      <div class="pad-half fill-shade border-radius margin-block-end-half txt-small">
+        <strong><%= log.user&.name %></strong> — <%= log.action %>
+        <span class="txt-subtle"><%= time_ago_in_words(log.created_at) %> ago</span>
+      </div>
+    <% end %>
+  </div>
+</div>

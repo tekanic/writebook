@@ -1,0 +1,25 @@
+<% content_for(:title) { "Import Subscribers — #{@book.title}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_slug_path(@book), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to publication</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel shadow center margin-block-double">
+  <h1 class="margin-block-end">Import Subscribers</h1>
+  <p class="txt-subtle">Upload a CSV file with an email column. Subscribers will be imported as confirmed.</p>
+
+  <%= form_with url: book_subscriber_imports_path(@book), method: :post, multipart: true, class: "flex flex-column gap" do |form| %>
+    <label class="flex flex-column gap-quarter">
+      <span>CSV File</span>
+      <%= form.file_field :csv_file, class: "input", accept: ".csv", required: true %>
+    </label>
+    <button type="submit" class="btn btn--reversed center">
+      Import
+    </button>
+  <% end %>
+</div>

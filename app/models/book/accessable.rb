@@ -9,14 +9,14 @@ module Book::Accessable
   class_methods do
     def accessable_or_published(user: Current.user)
       if user.present?
-        accessable_or_published_books
+        accessable_or_published_books(user: user)
       else
-        published
+        for_account.published
       end
     end
 
     def accessable_or_published_books(user: Current.user)
-      user.books.or(published).distinct
+      user.books.or(for_account.published).distinct
     end
   end
 
@@ -34,7 +34,7 @@ module Book::Accessable
 
   def update_access(editors:, readers:)
     editors = Set.new(editors)
-    readers = Set.new(everyone_access? ? User.active.ids : readers)
+    readers = Set.new(everyone_access? ? User.for_account(account).active.ids : readers)
 
     all = editors + readers
     all_accesses = all.collect { |user_id|

@@ -9,6 +9,13 @@ module SQLite3Configuration
           (count <= retries).tap { |result| sleep count * 0.001 if result }
         end
       end
+
+      # Performance tuning for production
+      raw_connection.execute("PRAGMA journal_mode = WAL")
+      raw_connection.execute("PRAGMA synchronous = normal")
+      raw_connection.execute("PRAGMA mmap_size = 134217728") # 128MB
+      raw_connection.execute("PRAGMA journal_size_limit = 67108864") # 64MB
+      raw_connection.execute("PRAGMA cache_size = -64000") # 64MB
     end
 end
 

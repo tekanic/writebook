@@ -1,0 +1,101 @@
+<% content_for(:title) { "Branding — #{@book.title}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_slug_path(@book), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to publication</span>
+    <% end %>
+
+    <div class="breadcrumbs">
+      <%= render "books/index_link" %>
+      <span class="flex-item-no-shrink">▸</span>
+      <strong>Branding</strong>
+    </div>
+  </nav>
+<% end %>
+
+<div class="branding-editor flex gap-double margin-block pad-double" data-controller="branding-preview">
+  <div class="branding-editor__form flex-item-grow">
+    <%= form_with model: @branding, url: book_branding_path(@book), method: :patch, class: "flex flex-column gap" do |form| %>
+
+      <fieldset class="flex flex-column gap-half">
+        <legend class="txt-medium"><strong>Identity</strong></legend>
+
+        <label class="flex flex-column gap-quarter">
+          <span class="txt-small txt-subtle">From Name</span>
+          <%= form.text_field :from_name, class: "input", placeholder: "Your newsletter name", data: { action: "input->branding-preview#update" } %>
+        </label>
+
+        <label class="flex flex-column gap-quarter">
+          <span class="txt-small txt-subtle">Tagline</span>
+          <%= form.text_field :tagline, class: "input", placeholder: "A short description", data: { action: "input->branding-preview#update" } %>
+        </label>
+      </fieldset>
+
+      <fieldset class="flex flex-column gap-half">
+        <legend class="txt-medium"><strong>Appearance</strong></legend>
+
+        <label class="flex flex-column gap-quarter" data-controller="color-picker">
+          <span class="txt-small txt-subtle">Accent Color</span>
+          <div class="flex align-center gap-half">
+            <%= form.color_field :accent_color, class: "input input--color", data: { color_picker_target: "input", action: "input->color-picker#validate input->branding-preview#update" } %>
+            <%= form.text_field :accent_color, class: "input", style: "max-width: 8em", data: { color_picker_target: "hex", action: "input->color-picker#syncFromHex input->branding-preview#update" } %>
+            <span class="txt-small txt-subtle" data-color-picker-target="contrast"></span>
+          </div>
+        </label>
+
+        <label class="flex flex-column gap-quarter">
+          <span class="txt-small txt-subtle">Font Family</span>
+          <%= form.select :font_family, PublicationBranding::FONT_OPTIONS, {}, class: "input", data: { action: "change->branding-preview#update" } %>
+        </label>
+      </fieldset>
+
+      <fieldset class="flex flex-column gap-half">
+        <legend class="txt-medium"><strong>Images</strong></legend>
+
+        <label class="flex flex-column gap-quarter">
+          <span class="txt-small txt-subtle">Logo</span>
+          <%= form.file_field :logo, class: "input", accept: "image/png, image/jpeg, image/svg+xml, image/webp" %>
+          <% if @branding.logo.attached? %>
+            <div class="flex align-center gap-half">
+              <%= image_tag @branding.logo, style: "max-height: 40px" %>
+            </div>
+          <% end %>
+        </label>
+
+        <label class="flex flex-column gap-quarter">
+          <span class="txt-small txt-subtle">Header Image</span>
+          <%= form.file_field :header_image, class: "input", accept: "image/png, image/jpeg, image/webp" %>
+          <% if @branding.header_image.attached? %>
+            <div>
+              <%= image_tag @branding.header_image, style: "max-width: 100%; max-height: 120px" %>
+            </div>
+          <% end %>
+        </label>
+      </fieldset>
+
+      <fieldset class="flex flex-column gap-half">
+        <legend class="txt-medium"><strong>Footer</strong></legend>
+
+        <label class="flex flex-column gap-quarter">
+          <span class="txt-small txt-subtle">Footer Text</span>
+          <%= form.text_area :footer_text, class: "input", rows: 3, placeholder: "© 2026 Your Company. All rights reserved.", data: { action: "input->branding-preview#update" } %>
+        </label>
+      </fieldset>
+
+      <div class="flex align-center gap">
+        <button type="submit" class="btn btn--reversed">
+          <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+          <span>Save Branding</span>
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="branding-editor__preview flex-item-grow" data-branding-preview-target="preview">
+    <div class="branding-preview fill-shade border-radius pad" style="max-width: 600px;">
+      <p class="txt-subtle txt-align-center">Preview will update as you type</p>
+    </div>
+  </div>
+</div>

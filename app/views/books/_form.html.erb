@@ -45,7 +45,7 @@
       <div class="flex align-center gap txt-medium">
         <%= translation_button(:book_title) %>
         <h1 class="txt-xx-large margin-none full-width">
-          <%= form.text_field :title, required: true, autofocus: true, class: "input", placeholder: "Book title", autocomplete: "off" %>
+          <%= form.text_field :title, required: true, autofocus: true, class: "input", placeholder: "Publication title", autocomplete: "off" %>
         </h1>
       </div>
       <div class="flex align-center gap txt-medium">
@@ -72,7 +72,7 @@
       <label for="book_everyone_access" class="switch">
         <%= form.check_box :everyone_access, class: "switch__input book-access__switch" %>
         <span class="switch__btn"></span>
-        <span class="for-screen-reader">Only allow some people to read this book</span>
+        <span class="for-screen-reader">Only allow some people to read this publication</span>
       </label>
     </div>
 

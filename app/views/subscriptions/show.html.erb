@@ -1,0 +1,30 @@
+<% content_for(:title) { "Subscribe to #{@book.title}" } %>
+
+<div class="panel shadow center margin-block-double">
+  <h1 class="margin-block-end"><%= @book.title %></h1>
+  <% if @book.subtitle.present? %>
+    <p class="txt-subtle"><%= @book.subtitle %></p>
+  <% end %>
+
+  <% if flash[:notice] %>
+    <div class="fill-selected pad border-radius margin-block">
+      <p><%= flash[:notice] %></p>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div class="fill-shade pad border-radius margin-block">
+      <p><%= flash[:alert] %></p>
+    </div>
+  <% end %>
+
+  <%= form_with url: subscription_path(handle: @book.slug), method: :post, class: "flex flex-column gap" do |form| %>
+    <label class="flex align-center gap input input--actor txt-large">
+      <%= form.email_field :email_address, name: "subscriber[email_address]", class: "input full-width", placeholder: "Your email address", required: true, autocomplete: "email" %>
+      <%= image_tag "email.svg", aria: { hidden: "true" }, size: 30, class: "colorize--black" %>
+    </label>
+    <button type="submit" class="btn btn--reversed center">
+      Subscribe
+    </button>
+  <% end %>
+</div>

@@ -1,0 +1,12 @@
+<div class="ad-creative pad border-radius fill-shade margin-block" style="border-left: 3px solid var(--accent-color, #ccc);">
+  <p class="txt-small txt-subtle margin-none">Sponsored</p>
+  <% if creative.image.attached? %>
+    <%= image_tag creative.image, alt: "", style: "max-width: 100%; border-radius: 4px; margin: 0.5rem 0;" %>
+  <% end %>
+  <p class="txt-medium margin-block-start-half"><strong><%= sanitize(creative.headline, tags: []) %></strong></p>
+  <p class="txt-small"><%= sanitize(creative.body_text, tags: []) %></p>
+  <a href="<%= click_url %>" class="btn btn--small btn--reversed" target="_blank" rel="noopener sponsored">
+    <%= sanitize(creative.cta_text, tags: []) %>
+  </a>
+  <p class="txt-small txt-subtle margin-block-start-half"><%= sanitize(creative.advertiser_name, tags: []) %></p>
+</div>

@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include Role, Transferable
+  include AccountScoped, Role, Transferable
 
   has_many :sessions, dependent: :destroy
   has_secure_password validations: false
@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :accesses, dependent: :destroy
   has_many :books, through: :accesses
   has_many :leaves, through: :books
+  has_many :ad_creatives, foreign_key: :advertiser_id, dependent: :destroy
 
   after_create :grant_access_to_everyone_books
 
@@ -30,7 +31,7 @@ class User < ApplicationRecord
     end
 
     def grant_access_to_everyone_books
-      all_accesses = Book.with_everyone_access.ids.collect { |id| { book_id: id, level: :reader } }
-      accesses.insert_all(all_accesses)
+      all_accesses = Book.for_account(account).with_everyone_access.ids.collect { |id| { book_id: id, level: :reader } }
+      accesses.insert_all(all_accesses) if all_accesses.any?
     end
 end

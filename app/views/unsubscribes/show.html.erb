@@ -1,0 +1,8 @@
+<% content_for(:title) { "Unsubscribe from #{@book.title}" } %>
+
+<div class="panel shadow center margin-block-double">
+  <h1 class="margin-block-end">Unsubscribe</h1>
+  <p>Are you sure you want to unsubscribe from <strong><%= @book.title %></strong>?</p>
+
+  <%= button_to "Unsubscribe", unsubscribe_path(token: @subscriber.unsubscribe_token), class: "btn btn--negative center" %>
+</div>

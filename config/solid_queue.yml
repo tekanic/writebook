@@ -1,0 +1,33 @@
+default: &default
+  dispatchers:
+    - polling_interval: 1
+      batch_size: 500
+  workers:
+    - queues: "*"
+      threads: 3
+      processes: 1
+      polling_interval: 0.1
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  dispatchers:
+    - polling_interval: 1
+      batch_size: 500
+      recurring_tasks:
+        article_source_fetch:
+          class: ArticleSourceFetchJob
+          schedule: every day at 6am
+  workers:
+    - queues: [email, default]
+      threads: 5
+      processes: 1
+      polling_interval: 0.1
+    - queues: [ai, imports]
+      threads: 2
+      processes: 1
+      polling_interval: 1

@@ -1,0 +1,48 @@
+<% content_for(:title) { "Billing — #{product_name}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to root_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <h1>Billing</h1>
+  <p class="txt-subtle margin-block-end">
+    Current plan: <strong class="badge"><%= @account.plan.titleize %></strong>
+    <% if @account.trial_active? %>
+      · Trial ends <%= time_ago_in_words(@account.trial_ends_at) %>
+    <% end %>
+  </p>
+
+  <div class="flex gap margin-block">
+    <% PlanEnforceable::PLANS.each do |plan_name, config| %>
+      <div class="flex-item-grow pad fill-shade border-radius">
+        <h2 class="txt-medium"><%= plan_name.titleize %></h2>
+        <ul class="txt-small">
+          <li><%= number_with_delimiter(config[:subscriber_limit]) %> subscribers</li>
+          <li><%= config[:publication_limit] %> publications</li>
+          <li><%= config[:ai_article_limit] %> AI articles/month</li>
+          <li><%= config[:custom_domain] ? "Custom domain" : "—" %></li>
+        </ul>
+        <% if plan_name != @account.plan %>
+          <%= button_to "Upgrade to #{plan_name.titleize}",
+                create_checkout_billing_path(plan: plan_name),
+                method: :post,
+                class: "btn btn--positive margin-block-start" %>
+        <% else %>
+          <p class="txt-small txt-subtle margin-block-start">Current plan</p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @account.stripe_customer_id.present? %>
+    <div class="margin-block">
+      <%= button_to "Manage Billing in Stripe", portal_billing_path, method: :post, class: "btn" %>
+    </div>
+  <% end %>
+</div>

@@ -6,7 +6,7 @@
           <label class="switch txt-medium">
             <%= form.check_box :published, checked: book.published?, class: "switch__input" %>
             <span class="switch__btn round"></span>
-            <span class="for-screen-reader">Publish this book</span>
+            <span class="for-screen-reader">Publish this publication</span>
           </label>
         <% end %>
       <%= image_tag "world.svg", aria: { hidden: true }, size: 36, class: "colorize--black" %>
@@ -46,7 +46,7 @@
           <span class="for-screen-reader">Copy public link</span>
         <% end %>
 
-        <%= web_share_button(public_url, "Link to join Writebook", "Hit this link to join me in Writebook and start writing.") do %>
+        <%= web_share_button(public_url, "Check out this publication on BookSend", "Read this publication on BookSend.") do %>
           <%= image_tag "share.svg", aria: { hidden: "true" }, size: 24, class: "colorize--black" %>
           <span class="for-screen-reader">Share public link</span>
         <% end %>

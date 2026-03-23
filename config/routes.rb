@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  root "books#index"
+  root "dashboard#show"
+
+  # Aliased routes for newsletter vocabulary
+  get "/publications", to: "books#index", as: :publications
 
   resource :first_run, only: %i[ show create ]
 
@@ -16,11 +19,18 @@ Rails.application.routes.draw do
     scope module: "accounts" do
       resource :join_code, only: :create
       resource :custom_styles, only: %i[ edit update ]
+      resources :sending_domains do
+        member do
+          post :verify
+        end
+      end
     end
   end
 
   resources :books, except: %i[ index show ] do
     resource :publication, controller: "books/publications", only: %i[ show edit update ]
+    resource :branding, controller: "books/brandings", only: %i[ edit update ]
+    resource :preview, controller: "books/previews", only: %i[ show create ]
     resource :bookmark, controller: "books/bookmarks", only: :show
 
     scope module: "books" do
@@ -29,12 +39,67 @@ Rails.application.routes.draw do
       end
 
       resource :search
+      resources :issues do
+        member do
+          post :send_campaign
+        end
+      end
+      resources :subscriber_imports, only: %i[ new create ]
+      resources :ad_slots
+      resources :article_sources
+      resources :generated_articles, only: %i[index show] do
+        member do
+          post :publish
+          post :reject
+        end
+      end
     end
 
     resources :sections
     resources :pictures
     resources :pages
   end
+
+  # Subscriber routes (public)
+  get "/s/:handle/subscribe", to: "subscriptions#show", as: :subscription
+  post "/s/:handle/subscribe", to: "subscriptions#create"
+  get "/s/:handle/confirm/:token", to: "subscriptions#confirm", as: :confirm_subscription
+  get "/unsubscribe/:token", to: "unsubscribes#show", as: :unsubscribe
+  post "/unsubscribe/:token", to: "unsubscribes#create"
+
+  # Web version of issues
+  get "/issues/:slug", to: "issues#show", as: :issue_web
+
+  # Ad marketplace
+  resources :marketplace, only: :index
+  resources :ad_creatives
+  get "/c/:token", to: "click_tracking#show", as: :click_track
+
+  # Billing
+  resource :billing, only: :show, controller: "billing" do
+    post :create_checkout
+    post :portal
+  end
+
+  # Admin
+  namespace :admin do
+    get "/", to: "dashboard#show", as: :dashboard
+    resources :accounts, only: %i[index show] do
+      member do
+        post :impersonate
+      end
+    end
+    resources :campaigns, only: :index
+    resources :ad_creatives, only: %i[index show] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
+  end
+
+  # Webhooks
+  post "/webhooks/resend", to: "webhooks/resend#create"
 
   get "/:id/:slug", to: "books#show", constraints: { id: /\d+/ }, as: :slugged_book
   get "/:book_id/:book_slug/:id/:slug", to: "leafables#show", constraints: { book_id: /\d+/, id: /\d+/ }, as: :slugged_leafable

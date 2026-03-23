@@ -5,21 +5,25 @@ david:
   email_address: david@example.com
   password_digest: <%= password_digest %>
   role: administrator
+  account: signal
 
 jason:
   name: Jason
   email_address: jason@example.com
   password_digest: <%= password_digest %>
   role: administrator
+  account: signal
 
 jz:
   name: JZ
   email_address: jz@example.com
   password_digest: <%= password_digest %>
   role: member
+  account: signal
 
 kevin:
   name: Kevin
   email_address: kevin@example.com
   password_digest: <%= password_digest %>
   role: member
+  account: signal

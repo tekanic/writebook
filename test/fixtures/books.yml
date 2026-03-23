@@ -1,7 +1,9 @@
 handbook:
   title: Handbook
   slug: handbook
+  account: signal
 
 manual:
   title: Manual
   slug: manual
+  account: signal

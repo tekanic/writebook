@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
 
   def index
-    @users = User.active
+    @users = User.for_account.active
   end
 
   def new
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create!(user_params)
+    @user = Current.account.users.create!(user_params)
     start_new_session_for @user
     redirect_to root_url
   rescue ActiveRecord::RecordNotUnique
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     end
 
     def set_user
-      @user = User.active.find(params[:id])
+      @user = User.for_account.active.find(params[:id])
     end
 
     def user_params

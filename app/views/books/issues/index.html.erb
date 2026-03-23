@@ -1,0 +1,46 @@
+<% content_for(:title) { "Issues — #{@book.title}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_slug_path(@book), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to publication</span>
+    <% end %>
+
+    <div class="breadcrumbs">
+      <%= render "books/index_link" %>
+      <span class="flex-item-no-shrink">▸</span>
+      <strong>Issues</strong>
+    </div>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <div class="flex align-center justify-space-between margin-block-end">
+    <h1>Issues</h1>
+    <%= link_to new_book_issue_path(@book), class: "btn btn--positive" do %>
+      <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+      <span>New Issue</span>
+    <% end %>
+  </div>
+
+  <% if @issues.any? %>
+    <div class="flex flex-column gap-half">
+      <% @issues.each do |issue| %>
+        <div class="flex align-center gap pad-half fill-shade border-radius">
+          <div class="flex-item-grow">
+            <%= link_to issue.subject, book_issue_path(@book, issue), class: "txt-medium" %>
+            <div class="txt-small txt-subtle">
+              <span class="badge"><%= issue.status.titleize %></span>
+              <% if issue.sent_at %>
+                · Sent <%= time_ago_in_words(issue.sent_at) %> ago
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="txt-subtle">No issues yet. Create your first issue to start sending newsletters.</p>
+  <% end %>
+</div>

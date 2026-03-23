@@ -1,0 +1,58 @@
+<div class="panel borderless center pad margin-block" data-controller="issue-composer">
+  <%= form_with model: [book, issue], class: "flex flex-column gap" do |form| %>
+    <h1><%= issue.new_record? ? "New Issue" : "Edit Issue" %></h1>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Subject Line</span>
+      <%= form.text_field :subject, class: "input txt-large", placeholder: "Your email subject", required: true, autofocus: true %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Preview Text</span>
+      <%= form.text_field :preview_text, class: "input", placeholder: "Brief preview shown in inbox" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Schedule (optional)</span>
+      <%= form.datetime_local_field :scheduled_at, class: "input" %>
+    </label>
+
+    <div class="flex gap-double margin-block">
+      <div class="flex-item-grow">
+        <h2 class="txt-medium margin-block-end-half">Issue Content</h2>
+        <div class="flex flex-column gap-half" data-issue-composer-target="selected">
+          <% issue.issue_articles.positioned.each do |ia| %>
+            <div class="pad-half fill-selected border-radius flex align-center gap">
+              <span class="flex-item-grow"><%= ia.leaf.title %></span>
+              <input type="hidden" name="article_ids[]" value="<%= ia.leaf_id %>">
+            </div>
+          <% end %>
+        </div>
+        <p class="txt-small txt-subtle margin-block-start" data-issue-composer-target="empty">
+          Drag articles from the library to add them to this issue.
+        </p>
+      </div>
+
+      <div class="flex-item-grow">
+        <h2 class="txt-medium margin-block-end-half">Article Library</h2>
+        <div class="flex flex-column gap-half">
+          <% available_leaves.each do |leaf| %>
+            <div class="pad-half fill-shade border-radius flex align-center gap" draggable="true" data-leaf-id="<%= leaf.id %>" data-action="click->issue-composer#addArticle">
+              <span class="flex-item-grow"><%= leaf.title %></span>
+              <button type="button" class="btn btn--small" data-action="issue-composer#addArticle">
+                <%= image_tag "add.svg", aria: { hidden: true }, size: 16 %>
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex align-center gap">
+      <button type="submit" class="btn btn--reversed">
+        <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+        <span><%= issue.new_record? ? "Create Issue" : "Update Issue" %></span>
+      </button>
+    </div>
+  <% end %>
+</div>

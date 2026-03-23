@@ -1,0 +1,12 @@
+<%= branded_from_name(@branding, @book) %>
+<%= "=" * branded_from_name(@branding, @book).length %>
+<% if @branding&.tagline.present? %><%= @branding.tagline %>
+<% end %>
+
+<%= yield %>
+
+---
+<% if @branding&.footer_text.present? %><%= @branding.footer_text %>
+<% end %>
+Unsubscribe: <%= @unsubscribe_url %>
+<% if @web_version_url.present? %>View in browser: <%= @web_version_url %><% end %>

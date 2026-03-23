@@ -1,0 +1,29 @@
+<% content_for(:title) { "#{library_label} | #{product_name}" } %>
+<% @layout_class = "books" %>
+
+<% content_for :header do %>
+  <nav>
+    <span class="btn btn--placeholder" aria-hidden="true"></span>
+
+    <span class="product__wordmark btn btn--plain txt-large center">
+      <%= image_tag "booksend-icon.svg", aria: { hidden: true }, size: 24 %>
+      <span><%= product_name %></span>
+    </span>
+
+    <%= link_to users_path, class: "btn" do %>
+      <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Manage people and settings</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="library">
+  <% if @books.any? %>
+    <%= render @books %>
+  <% else %>
+    <div class="txt-align-center pad-double">
+      <p class="txt-large txt-subtle">You don't have any publications yet.</p>
+    </div>
+  <% end %>
+  <%= render "books/new" %>
+</div>

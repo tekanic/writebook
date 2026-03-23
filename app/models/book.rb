@@ -1,7 +1,11 @@
 class Book < ApplicationRecord
-  include Accessable, Sluggable
+  include AccountScoped, Accessable, Sluggable
 
   has_many :leaves, dependent: :destroy
+  has_many :subscribers, dependent: :destroy
+  has_many :issues, dependent: :destroy
+  has_many :ad_slots, dependent: :destroy
+  has_one :publication_branding, dependent: :destroy
   has_one_attached :cover, dependent: :purge_later
 
   scope :ordered, -> { order(:title) }

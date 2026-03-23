@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Admin — BookSend" %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header id="header">
+      <nav class="flex align-center gap pad-half" style="background: #1a1a2e; color: white;">
+        <strong class="txt-medium" style="color: white;">BookSend Admin</strong>
+        <div class="flex-item-grow"></div>
+        <%= link_to "Dashboard", admin_dashboard_path, style: "color: white;" %>
+        <%= link_to "Accounts", admin_accounts_path, style: "color: white;" %>
+        <%= link_to "Campaigns", admin_campaigns_path, style: "color: white;" %>
+        <%= link_to "Ad Review", admin_ad_creatives_path, style: "color: white;" %>
+        <div class="flex-item-grow"></div>
+        <%= link_to "← Back to app", root_path, style: "color: white;" %>
+      </nav>
+    </header>
+
+    <main id="main" style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+      <% if flash[:notice] %>
+        <div class="fill-selected pad border-radius margin-block-end"><%= flash[:notice] %></div>
+      <% end %>
+      <% if flash[:alert] %>
+        <div class="fill-shade pad border-radius margin-block-end"><%= flash[:alert] %></div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<% content_for(:title) { "Domain: #{@sending_domain.domain}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to account_sending_domains_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to domains</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <h1><%= @sending_domain.domain %></h1>
+  <p>
+    Status: <span class="badge"><%= @sending_domain.status.titleize %></span>
+  </p>
+
+  <% if @sending_domain.dns_records.present? %>
+    <h2 class="txt-medium margin-block">DNS Records</h2>
+    <p class="txt-subtle">Add these records to your DNS provider:</p>
+
+    <div class="flex flex-column gap margin-block">
+      <% Array(@sending_domain.dns_records).each do |record| %>
+        <div class="pad fill-shade border-radius">
+          <div class="flex align-center gap-half margin-block-end-half">
+            <strong><%= record["type"] %></strong>
+            <button class="btn btn--small" data-controller="copy-to-clipboard" data-copy-to-clipboard-text-value="<%= record["value"] %>" data-action="copy-to-clipboard#copy">
+              Copy
+            </button>
+          </div>
+          <div class="txt-small">
+            <div><strong>Name:</strong> <code><%= record["name"] %></code></div>
+            <div><strong>Value:</strong> <code class="txt-wrap"><%= record["value"] %></code></div>
+            <% if record["ttl"] %>
+              <div><strong>TTL:</strong> <%= record["ttl"] %></div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="flex align-center gap margin-block">
+    <% unless @sending_domain.verified? %>
+      <%= button_to "Verify Now", verify_account_sending_domain_path(@sending_domain), method: :post, class: "btn btn--positive" %>
+    <% end %>
+    <%= button_to "Remove Domain", account_sending_domain_path(@sending_domain), method: :delete, class: "btn btn--negative", data: { turbo_confirm: "Remove this domain?" } %>
+  </div>
+
+  <div class="fill-shade pad border-radius margin-block">
+    <h3 class="txt-medium">DMARC Guidance</h3>
+    <p class="txt-small">For best deliverability, add a DMARC record to your domain:</p>
+    <code class="txt-small">v=DMARC1; p=none; rua=mailto:dmarc@<%= @sending_domain.domain %></code>
+  </div>
+</div>

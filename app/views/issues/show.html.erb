@@ -1,0 +1,28 @@
+<% content_for(:title) { @issue.subject } %>
+
+<% content_for :head do %>
+  <%= tag.meta property: "og:title", content: @issue.subject %>
+  <%= tag.meta property: "og:description", content: @issue.preview_text %>
+<% end %>
+
+<div class="panel borderless center pad margin-block" style="max-width: 700px;">
+  <% if !@issue.sent? %>
+    <div style="background: #fff3cd; color: #856404; padding: 10px 20px; text-align: center; border-radius: 4px; margin-bottom: 1rem;">
+      DRAFT — This issue has not been sent yet.
+    </div>
+  <% end %>
+
+  <h1><%= @issue.subject %></h1>
+  <p class="txt-subtle"><%= @book.title %> · <%= @issue.sent_at ? @issue.sent_at.strftime("%B %d, %Y") : "Draft" %></p>
+
+  <div class="margin-block">
+    <%= raw @html_content %>
+  </div>
+
+  <hr>
+  <p class="txt-small txt-subtle txt-align-center">
+    <%= @branding&.footer_text %>
+    <br>
+    <a href="<%= subscription_path(handle: @book.slug) %>">Subscribe to <%= @book.title %></a>
+  </p>
+</div>

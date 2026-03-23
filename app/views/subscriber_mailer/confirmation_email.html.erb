@@ -1,0 +1,11 @@
+<h2>Confirm your subscription</h2>
+
+<p>You've been asked to confirm your subscription to <strong><%= @book.title %></strong>.</p>
+
+<p>
+  <%= link_to "Confirm subscription", @confirmation_url, style: "display: inline-block; padding: 12px 24px; background-color: #0066cc; color: #ffffff; text-decoration: none; border-radius: 4px;" %>
+</p>
+
+<p>If you didn't request this, you can safely ignore this email.</p>
+
+<p style="color: #999; font-size: 12px;">This link expires in 72 hours.</p>
