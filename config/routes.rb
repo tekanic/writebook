@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     resources :sections
     resources :pictures
     resources :pages
+    resources :adverts
   end
 
   # Subscriber routes (public)

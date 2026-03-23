@@ -1,0 +1,39 @@
+<%= leafable_edit_form(advert, id: "leafable-editor") do |form| %>
+  <div class="flex flex-column gap">
+    <div class="flex align-center gap">
+      <%= translation_button(:advert_headline) %>
+      <h2 class="txt-large full-width margin-none">
+        <%= form.text_field :headline, class: "input", required: true, placeholder: "Ad headline", autofocus: true, maxlength: 100 %>
+      </h2>
+    </div>
+
+    <div class="flex align-center gap">
+      <%= translation_button(:advert_body) %>
+      <%= form.text_area :body_text, class: "input", rows: 3, placeholder: "Ad body text (plain text, max 500 chars)", maxlength: 500 %>
+    </div>
+
+    <div class="flex align-center gap">
+      <%= translation_button(:advert_url) %>
+      <%= form.url_field :destination_url, class: "input", placeholder: "https://example.com/landing-page" %>
+    </div>
+
+    <div class="flex gap">
+      <div class="flex align-center gap flex-item-grow">
+        <%= form.text_field :cta_text, class: "input", placeholder: "Call to action (e.g., Learn more)", maxlength: 30 %>
+      </div>
+      <div class="flex align-center gap flex-item-grow">
+        <%= form.text_field :advertiser_name, class: "input", placeholder: "Advertiser name" %>
+      </div>
+    </div>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-small txt-subtle">Ad Image (optional)</span>
+      <%= form.file_field :image, class: "input", accept: "image/png, image/jpeg, image/webp" %>
+      <% if advert.persisted? && advert.image.attached? %>
+        <%= image_tag advert.image, style: "max-width: 100%; max-height: 200px; border-radius: 4px;" %>
+      <% end %>
+    </label>
+  </div>
+
+  <%= form.submit "Save", hidden: true %>
+<% end %>

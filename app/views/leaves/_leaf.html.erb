@@ -29,6 +29,13 @@
       <% if leaf.picture? %>
         <%= image_tag leaf.leafable.image.attached? ? leaf.leafable.image.variant(:large) : "default-picture.webp" %>
       <% end %>
+
+      <% if leaf.advert? %>
+        <div class="toc__advert pad-half txt-align-start">
+          <span class="txt-small txt-subtle">Sponsored</span>
+          <strong class="overflow-ellipsis"><%= leaf.leafable.safe_headline %></strong>
+        </div>
+      <% end %>
     </div>
 
     <% if leaf.book.editable? %>

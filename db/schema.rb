@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_03_22_000013) do
+ActiveRecord::Schema[8.2].define(version: 2026_03_23_000001) do
   create_table "accesses", force: :cascade do |t|
     t.integer "book_id", null: false
     t.datetime "created_at", null: false
@@ -136,6 +136,17 @@ ActiveRecord::Schema[8.2].define(version: 2026_03_22_000013) do
     t.string "pricing_model", default: "flat", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_ad_slots_on_book_id"
+  end
+
+  create_table "adverts", force: :cascade do |t|
+    t.string "advertiser_name"
+    t.text "body_text"
+    t.datetime "created_at", null: false
+    t.string "cta_text", default: "Learn more"
+    t.string "destination_url"
+    t.string "headline", null: false
+    t.string "status", default: "draft"
+    t.datetime "updated_at", null: false
   end
 
   create_table "article_sources", force: :cascade do |t|

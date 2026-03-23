@@ -1,7 +1,7 @@
 module Leafable
   extend ActiveSupport::Concern
 
-  TYPES = %w[ Page Section Picture ]
+  TYPES = %w[ Page Section Picture Advert ]
 
   included do
     has_one :leaf, as: :leafable, inverse_of: :leafable, touch: true
