@@ -74,37 +74,37 @@
 
     <% if @book.editable? %>
       <nav class="flex align-center justify-center gap-half pad-half flex-wrap">
-        <%= link_to book_issues_path(@book), class: "btn btn--plain txt-small" do %>
+        <%= link_to book_issues_path(@book), class: "btn txt-small" do %>
           <%= image_tag "email.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
           <span>Issues</span>
         <% end %>
 
-        <%= link_to book_preview_path(@book), class: "btn btn--plain txt-small" do %>
+        <%= link_to book_preview_path(@book), class: "btn txt-small" do %>
           <%= image_tag "eye.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
           <span>Preview</span>
         <% end %>
 
-        <%= link_to edit_book_branding_path(@book), class: "btn btn--plain txt-small" do %>
+        <%= link_to edit_book_branding_path(@book), class: "btn txt-small" do %>
           <%= image_tag "art.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
           <span>Branding</span>
         <% end %>
 
-        <%= link_to new_book_subscriber_import_path(@book), class: "btn btn--plain txt-small" do %>
+        <%= link_to new_book_subscriber_import_path(@book), class: "btn txt-small" do %>
           <%= image_tag "people.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
           <span>Import</span>
         <% end %>
 
-        <%= link_to book_ad_slots_path(@book), class: "btn btn--plain txt-small" do %>
+        <%= link_to book_ad_slots_path(@book), class: "btn txt-small" do %>
           <%= image_tag "globe.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
           <span>Ad Slots</span>
         <% end %>
 
-        <%= link_to book_article_sources_path(@book), class: "btn btn--plain txt-small" do %>
+        <%= link_to book_article_sources_path(@book), class: "btn txt-small" do %>
           <%= image_tag "write.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
           <span>AI Sources</span>
         <% end %>
 
-        <%= link_to book_generated_articles_path(@book), class: "btn btn--plain txt-small" do %>
+        <%= link_to book_generated_articles_path(@book), class: "btn txt-small" do %>
           <%= image_tag "page-text.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
           <span>AI Articles</span>
         <% end %>

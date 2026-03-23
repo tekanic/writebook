@@ -19,40 +19,40 @@
 
 <% content_for :toolbar do %>
   <nav class="flex align-center justify-center gap-half pad-half flex-wrap">
-    <%= link_to marketplace_index_path, class: "btn btn--plain txt-small" do %>
+    <%= link_to marketplace_index_path, class: "btn txt-small" do %>
       <%= image_tag "globe.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
       <span>Marketplace</span>
     <% end %>
 
-    <%= link_to ad_creatives_path, class: "btn btn--plain txt-small" do %>
+    <%= link_to ad_creatives_path, class: "btn txt-small" do %>
       <%= image_tag "page-picture.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
       <span>My Ads</span>
     <% end %>
 
     <% if Current.user.can_administer? %>
-      <%= link_to account_sending_domains_path, class: "btn btn--plain txt-small" do %>
+      <%= link_to account_sending_domains_path, class: "btn txt-small" do %>
         <%= image_tag "email.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
         <span>Domains</span>
       <% end %>
 
-      <%= link_to billing_path, class: "btn btn--plain txt-small" do %>
+      <%= link_to billing_path, class: "btn txt-small" do %>
         <%= image_tag "crown.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
         <span>Billing</span>
       <% end %>
 
-      <%= link_to users_path, class: "btn btn--plain txt-small" do %>
+      <%= link_to users_path, class: "btn txt-small" do %>
         <%= image_tag "people.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
         <span>Team</span>
       <% end %>
 
-      <%= link_to edit_account_custom_styles_path, class: "btn btn--plain txt-small" do %>
+      <%= link_to edit_account_custom_styles_path, class: "btn txt-small" do %>
         <%= image_tag "art.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
         <span>Styles</span>
       <% end %>
     <% end %>
 
     <% if Current.user.platform_admin? %>
-      <%= link_to admin_dashboard_path, class: "btn btn--plain txt-small" do %>
+      <%= link_to admin_dashboard_path, class: "btn txt-small" do %>
         <%= image_tag "lock.svg", aria: { hidden: true }, size: 18, class: "colorize--black" %>
         <span>Admin</span>
       <% end %>
