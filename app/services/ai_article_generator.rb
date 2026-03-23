@@ -1,4 +1,4 @@
-class ClaudeArticleGenerator
+class AiArticleGenerator
   DEFAULT_MODEL = "claude-haiku-4-5"
 
   def initialize(source_content:, source_title:, source_url:, model: DEFAULT_MODEL)
@@ -60,7 +60,6 @@ class ClaudeArticleGenerator
     end
 
     def extract_body(content)
-      # Remove the title line
       lines = content.lines
       lines.shift if lines.first&.match?(/^#\s+/)
       lines.join.strip

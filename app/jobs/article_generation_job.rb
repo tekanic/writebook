@@ -15,7 +15,7 @@ class ArticleGenerationJob < ApplicationJob
     return unless result[:success]
 
     # Generate article
-    generator = ClaudeArticleGenerator.new(
+    generator = AiArticleGenerator.new(
       source_content: result[:content],
       source_title: result[:title],
       source_url: article_source.url
