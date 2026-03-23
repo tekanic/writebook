@@ -1,0 +1,40 @@
+<% content_for(:title) { @article_source.name } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_article_sources_path(@book), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to sources</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <h1><%= @article_source.name %></h1>
+  <p class="txt-subtle">
+    <%= link_to @article_source.url, @article_source.url, target: "_blank", rel: "noopener" %>
+    · <%= @article_source.fetch_frequency.titleize %>
+    · <span class="badge"><%= @article_source.status.titleize %></span>
+  </p>
+
+  <h2 class="txt-medium margin-block">Generated Articles</h2>
+
+  <% if @generated_articles.any? %>
+    <div class="flex flex-column gap-half">
+      <% @generated_articles.each do |article| %>
+        <div class="flex align-center gap pad-half fill-shade border-radius">
+          <div class="flex-item-grow">
+            <%= link_to article.title, book_generated_article_path(@book, article), class: "txt-medium" %>
+            <div class="txt-small txt-subtle">
+              <span class="badge"><%= article.status.titleize %></span>
+              · <%= time_ago_in_words(article.created_at) %> ago
+              · <%= article.total_tokens %> tokens
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="txt-subtle">No articles generated from this source yet. Articles are generated on the configured schedule.</p>
+  <% end %>
+</div>

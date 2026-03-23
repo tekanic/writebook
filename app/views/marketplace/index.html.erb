@@ -1,0 +1,46 @@
+<% content_for(:title) { "Ad Marketplace" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to root_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back</span>
+    <% end %>
+
+    <div class="breadcrumbs">
+      <strong>Ad Marketplace</strong>
+    </div>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <h1>Ad Marketplace</h1>
+  <p class="txt-subtle margin-block-end">Browse available ad slots across publications.</p>
+
+  <% if @ad_slots.any? %>
+    <div class="flex flex-column gap-half">
+      <% @ad_slots.each do |slot| %>
+        <div class="pad fill-shade border-radius">
+          <div class="flex align-center justify-space-between">
+            <div>
+              <strong><%= slot.name %></strong>
+              <span class="txt-subtle">in <%= slot.book.title %></span>
+            </div>
+            <strong>$<%= (slot.price_cents / 100.0).round(2) %></strong>
+          </div>
+          <div class="txt-small txt-subtle margin-block-start-half">
+            Position: <%= slot.position.titleize %> · <%= slot.pricing_model.upcase %>
+            <% if slot.available_from && slot.available_to %>
+              · Available: <%= slot.available_from.strftime("%b %d") %> – <%= slot.available_to.strftime("%b %d, %Y") %>
+            <% end %>
+            <% if slot.category_policy.present? %>
+              · Policy: <%= slot.category_policy %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="txt-subtle">No ad slots are currently available.</p>
+  <% end %>
+</div>

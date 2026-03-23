@@ -1,0 +1,51 @@
+<div class="panel borderless center pad margin-block">
+  <h1><%= ad_slot.new_record? ? "New Ad Slot" : "Edit Ad Slot" %></h1>
+
+  <%= form_with model: [book, ad_slot], class: "flex flex-column gap" do |form| %>
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Name</span>
+      <%= form.text_field :name, class: "input", required: true, placeholder: "e.g., Top Banner" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Position in Email</span>
+      <%= form.select :position, AdSlot.positions.keys.map { |p| [p.titleize, p] }, {}, class: "input" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Pricing Model</span>
+      <%= form.select :pricing_model, AdSlot.pricing_models.keys.map { |p| [p.upcase, p] }, {}, class: "input" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Price (cents)</span>
+      <%= form.number_field :price_cents, class: "input", min: 0, placeholder: "5000 = $50.00" %>
+    </label>
+
+    <div class="flex gap">
+      <label class="flex flex-column gap-quarter flex-item-grow">
+        <span class="txt-medium">Available From</span>
+        <%= form.date_field :available_from, class: "input" %>
+      </label>
+      <label class="flex flex-column gap-quarter flex-item-grow">
+        <span class="txt-medium">Available To</span>
+        <%= form.date_field :available_to, class: "input" %>
+      </label>
+    </div>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Category Policy</span>
+      <%= form.text_field :category_policy, class: "input", placeholder: "e.g., No gambling, no adult content" %>
+    </label>
+
+    <label class="flex align-center gap-half">
+      <%= form.check_box :listed, class: "switch__input" %>
+      <span class="txt-medium">Listed on marketplace</span>
+    </label>
+
+    <button type="submit" class="btn btn--reversed">
+      <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+      <span><%= ad_slot.new_record? ? "Create Ad Slot" : "Save Changes" %></span>
+    </button>
+  <% end %>
+</div>

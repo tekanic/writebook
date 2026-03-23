@@ -1,0 +1,39 @@
+<% content_for(:title) { "Sending Domains" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to users_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to settings</span>
+    <% end %>
+
+    <div class="breadcrumbs">
+      <strong>Sending Domains</strong>
+    </div>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <div class="flex align-center justify-space-between margin-block-end">
+    <h1>Sending Domains</h1>
+    <%= link_to new_account_sending_domain_path, class: "btn btn--positive" do %>
+      <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+      <span>Add Domain</span>
+    <% end %>
+  </div>
+
+  <% if @sending_domains.any? %>
+    <div class="flex flex-column gap-half">
+      <% @sending_domains.each do |domain| %>
+        <div class="flex align-center gap pad-half fill-shade border-radius">
+          <div class="flex-item-grow">
+            <%= link_to domain.domain, account_sending_domain_path(domain), class: "txt-medium" %>
+            <span class="badge"><%= domain.status.titleize %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="txt-subtle">No sending domains configured. Add one to send emails from your own domain.</p>
+  <% end %>
+</div>

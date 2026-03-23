@@ -1,0 +1,42 @@
+<% content_for(:title) { @ad_creative.headline } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to ad_creatives_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to creatives</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <div class="flex align-center justify-space-between margin-block-end">
+    <div>
+      <h1><%= @ad_creative.headline %></h1>
+      <p class="txt-subtle">
+        <span class="badge"><%= @ad_creative.status.titleize %></span>
+        <% if @ad_creative.rejection_reason.present? %>
+          · <span style="color: red;"><%= @ad_creative.rejection_reason %></span>
+        <% end %>
+      </p>
+    </div>
+    <% if @ad_creative.pending? %>
+      <%= link_to edit_ad_creative_path(@ad_creative), class: "btn" do %>
+        <%= image_tag "pencil.svg", aria: { hidden: true }, size: 24 %>
+        <span>Edit</span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="fill-shade pad border-radius margin-block">
+    <h2 class="txt-medium margin-block-end-half">Preview</h2>
+    <%= render "ads/creative", creative: @ad_creative, click_url: @ad_creative.destination_url %>
+  </div>
+
+  <div class="flex flex-column gap-half margin-block">
+    <div><strong>Destination:</strong> <%= link_to @ad_creative.destination_url, @ad_creative.destination_url, target: "_blank", rel: "noopener" %></div>
+    <div><strong>CTA:</strong> <%= @ad_creative.cta_text %></div>
+    <div><strong>Advertiser:</strong> <%= @ad_creative.advertiser_name %></div>
+    <div><strong>Clicks:</strong> <%= @ad_creative.ad_clicks.count %></div>
+  </div>
+</div>

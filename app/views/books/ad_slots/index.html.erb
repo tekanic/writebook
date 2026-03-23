@@ -1,0 +1,54 @@
+<% content_for(:title) { "Ad Slots — #{@book.title}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_slug_path(@book), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to publication</span>
+    <% end %>
+
+    <div class="breadcrumbs">
+      <%= render "books/index_link" %>
+      <span class="flex-item-no-shrink">▸</span>
+      <strong>Ad Slots</strong>
+    </div>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <div class="flex align-center justify-space-between margin-block-end">
+    <h1>Ad Slots</h1>
+    <%= link_to new_book_ad_slot_path(@book), class: "btn btn--positive" do %>
+      <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+      <span>New Ad Slot</span>
+    <% end %>
+  </div>
+
+  <% if @ad_slots.any? %>
+    <div class="flex flex-column gap-half">
+      <% @ad_slots.each do |slot| %>
+        <div class="flex align-center gap pad-half fill-shade border-radius">
+          <div class="flex-item-grow">
+            <strong><%= slot.name %></strong>
+            <div class="txt-small txt-subtle">
+              Position: <%= slot.position.titleize %> · <%= slot.pricing_model.upcase %> · $<%= (slot.price_cents / 100.0).round(2) %>
+              <% if slot.listed? %>
+                · <span class="badge">Listed</span>
+              <% end %>
+            </div>
+          </div>
+          <div class="flex align-center gap-half">
+            <%= link_to edit_book_ad_slot_path(@book, slot), class: "btn btn--small" do %>
+              <%= image_tag "pencil.svg", aria: { hidden: true }, size: 16 %>
+            <% end %>
+            <%= button_to book_ad_slot_path(@book, slot), method: :delete, class: "btn btn--small btn--negative", data: { turbo_confirm: "Delete this ad slot?" } do %>
+              <%= image_tag "trash.svg", aria: { hidden: true }, size: 16 %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="txt-subtle">No ad slots yet. Create one to start accepting advertisements.</p>
+  <% end %>
+</div>

@@ -1,0 +1,27 @@
+<% content_for(:title) { "Add Sending Domain" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to account_sending_domains_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to domains</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <h1>Add Sending Domain</h1>
+  <p class="txt-subtle margin-block-end">Enter your domain to start sending emails from your own address.</p>
+
+  <%= form_with model: @sending_domain, url: account_sending_domains_path, class: "flex flex-column gap" do |form| %>
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Domain</span>
+      <%= form.text_field :domain, class: "input", required: true, placeholder: "mail.yourdomain.com", autofocus: true %>
+    </label>
+
+    <button type="submit" class="btn btn--reversed">
+      <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+      <span>Add Domain</span>
+    </button>
+  <% end %>
+</div>

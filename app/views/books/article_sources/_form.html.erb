@@ -1,0 +1,31 @@
+<div class="panel borderless center pad margin-block">
+  <h1><%= article_source.new_record? ? "Add AI Source" : "Edit Source" %></h1>
+
+  <%= form_with model: [book, article_source], class: "flex flex-column gap" do |form| %>
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Name</span>
+      <%= form.text_field :name, class: "input", required: true, placeholder: "e.g., TechCrunch AI" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Source URL</span>
+      <span class="txt-small txt-subtle">The web page to fetch content from</span>
+      <%= form.url_field :url, class: "input", required: true, placeholder: "https://example.com/article" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Fetch Frequency</span>
+      <%= form.select :fetch_frequency, ArticleSource.fetch_frequencies.keys.map { |f| [f.titleize, f] }, {}, class: "input" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Status</span>
+      <%= form.select :status, ArticleSource.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "input" %>
+    </label>
+
+    <button type="submit" class="btn btn--reversed">
+      <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+      <span><%= article_source.new_record? ? "Add Source" : "Save Changes" %></span>
+    </button>
+  <% end %>
+</div>

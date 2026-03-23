@@ -1,0 +1,42 @@
+<% content_for(:title) { "#{@account.name} — Admin" } %>
+
+<h1><%= @account.name %></h1>
+
+<div class="flex gap margin-block">
+  <div class="flex-item-grow pad fill-shade border-radius">
+    <div class="txt-large"><%= @account.plan&.titleize || "Seed" %></div>
+    <div class="txt-subtle">Plan</div>
+  </div>
+  <div class="flex-item-grow pad fill-shade border-radius">
+    <div class="txt-large"><%= @account.users.count %></div>
+    <div class="txt-subtle">Users</div>
+  </div>
+  <div class="flex-item-grow pad fill-shade border-radius">
+    <div class="txt-large"><%= @account.books.count %></div>
+    <div class="txt-subtle">Publications</div>
+  </div>
+</div>
+
+<h2 class="txt-medium margin-block-end-half">Users</h2>
+<div class="flex flex-column gap-half margin-block-end">
+  <% @account.users.each do |user| %>
+    <div class="pad-half fill-shade border-radius">
+      <strong><%= user.name %></strong> · <%= user.email_address %> · <%= user.role %>
+      <% unless user.active? %><span class="badge">Deactivated</span><% end %>
+    </div>
+  <% end %>
+</div>
+
+<h2 class="txt-medium margin-block-end-half">Publications</h2>
+<div class="flex flex-column gap-half margin-block-end">
+  <% @account.books.each do |book| %>
+    <div class="pad-half fill-shade border-radius">
+      <strong><%= book.title %></strong>
+      <% if book.published? %><span class="badge">Published</span><% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="margin-block">
+  <%= button_to "Impersonate", impersonate_admin_account_path(@account), method: :post, class: "btn", data: { turbo_confirm: "This will be logged in the audit trail. Continue?" } %>
+</div>

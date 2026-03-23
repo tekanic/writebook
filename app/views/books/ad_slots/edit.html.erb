@@ -1,0 +1,12 @@
+<% content_for(:title) { "Edit Ad Slot — #{@ad_slot.name}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_ad_slots_path(@book), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to ad slots</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<%= render "books/ad_slots/form", book: @book, ad_slot: @ad_slot %>

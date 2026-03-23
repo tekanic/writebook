@@ -1,0 +1,41 @@
+<% content_for(:title) { @generated_article.title } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to book_generated_articles_path(@book), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back to generated articles</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block" style="max-width: 700px;">
+  <div class="flex align-center justify-space-between margin-block-end">
+    <div>
+      <h1><%= @generated_article.title %></h1>
+      <p class="txt-subtle">
+        <span class="badge"><%= @generated_article.status.titleize %></span>
+        · <%= @generated_article.ai_model_used %>
+        · <%= @generated_article.total_tokens %> tokens
+        · <%= time_ago_in_words(@generated_article.created_at) %> ago
+      </p>
+    </div>
+  </div>
+
+  <% if @generated_article.source_url.present? %>
+    <p class="txt-small txt-subtle">
+      Source: <%= link_to @generated_article.source_title || @generated_article.source_url, @generated_article.source_url, target: "_blank", rel: "noopener" %>
+    </p>
+  <% end %>
+
+  <div class="margin-block pad fill-shade border-radius">
+    <%= raw ActionText::Markdown.new(@generated_article.body_with_attribution).to_html %>
+  </div>
+
+  <% if @generated_article.pending? %>
+    <div class="flex align-center gap margin-block">
+      <%= button_to "Publish to #{@book.title}", publish_book_generated_article_path(@book, @generated_article), method: :post, class: "btn btn--positive" %>
+      <%= button_to "Reject", reject_book_generated_article_path(@book, @generated_article), method: :post, class: "btn btn--negative" %>
+    </div>
+  <% end %>
+</div>

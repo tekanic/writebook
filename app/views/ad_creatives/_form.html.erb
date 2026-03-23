@@ -1,0 +1,49 @@
+<div class="panel borderless center pad margin-block">
+  <h1><%= ad_creative.new_record? ? "New Ad Creative" : "Edit Creative" %></h1>
+
+  <%= form_with model: ad_creative, class: "flex flex-column gap" do |form| %>
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Headline</span>
+      <span class="txt-small txt-subtle">Max 80 characters</span>
+      <%= form.text_field :headline, class: "input", required: true, maxlength: 80, placeholder: "Your attention-grabbing headline" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Body Text</span>
+      <span class="txt-small txt-subtle">Max 300 characters. Plain text only — no HTML.</span>
+      <%= form.text_area :body_text, class: "input", required: true, maxlength: 300, rows: 3, placeholder: "Describe your product or offer" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Destination URL</span>
+      <span class="txt-small txt-subtle">Must use HTTPS</span>
+      <%= form.url_field :destination_url, class: "input", required: true, placeholder: "https://example.com/landing-page" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Call to Action</span>
+      <%= form.text_field :cta_text, class: "input", maxlength: 30, placeholder: "Learn more" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Advertiser Name</span>
+      <%= form.text_field :advertiser_name, class: "input", placeholder: "Your company name" %>
+    </label>
+
+    <label class="flex flex-column gap-quarter">
+      <span class="txt-medium">Image (optional)</span>
+      <span class="txt-small txt-subtle">Max 1200x400px. Will be re-encoded as JPEG.</span>
+      <%= form.file_field :image, class: "input", accept: "image/png, image/jpeg, image/webp" %>
+      <% if ad_creative.persisted? && ad_creative.image.attached? %>
+        <div class="margin-block-start-half">
+          <%= image_tag ad_creative.image, style: "max-width: 100%; max-height: 100px; border-radius: 4px;" %>
+        </div>
+      <% end %>
+    </label>
+
+    <button type="submit" class="btn btn--reversed">
+      <%= image_tag "check.svg", aria: { hidden: true }, size: 24 %>
+      <span><%= ad_creative.new_record? ? "Submit for Review" : "Update Creative" %></span>
+    </button>
+  <% end %>
+</div>

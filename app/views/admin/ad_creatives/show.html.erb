@@ -1,0 +1,46 @@
+<% content_for(:title) { "Review: #{@ad_creative.headline} — Admin" } %>
+
+<h1>Review Ad Creative</h1>
+
+<div class="flex gap margin-block">
+  <div class="flex-item-grow">
+    <h2 class="txt-medium margin-block-end-half">Details</h2>
+    <div class="flex flex-column gap-half">
+      <div><strong>Headline:</strong> <%= @ad_creative.headline %></div>
+      <div><strong>Body:</strong> <%= @ad_creative.body_text %></div>
+      <div><strong>Destination:</strong> <%= link_to @ad_creative.destination_url, @ad_creative.destination_url, target: "_blank", rel: "noopener" %></div>
+      <div><strong>CTA:</strong> <%= @ad_creative.cta_text %></div>
+      <div><strong>Advertiser:</strong> <%= @ad_creative.advertiser_name %> (<%= @ad_creative.advertiser&.name %>)</div>
+    </div>
+
+    <% if @ad_creative.automated_check_results.present? %>
+      <h2 class="txt-medium margin-block margin-block-end-half">Automated Checks</h2>
+      <div class="flex flex-column gap-half">
+        <% @ad_creative.automated_check_results.each do |check, result| %>
+          <div class="pad-half fill-shade border-radius">
+            <strong><%= check %>:</strong>
+            <span class="<%= result == 'pass' ? '' : 'txt-subtle' %>" style="<%= result != 'pass' ? 'color: red;' : '' %>">
+              <%= result %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex-item-grow">
+    <h2 class="txt-medium margin-block-end-half">Preview</h2>
+    <div class="fill-shade pad border-radius">
+      <%= render "ads/creative", creative: @ad_creative, click_url: @ad_creative.destination_url %>
+    </div>
+  </div>
+</div>
+
+<div class="flex align-center gap margin-block">
+  <%= button_to "Approve", approve_admin_ad_creative_path(@ad_creative), method: :post, class: "btn btn--positive" %>
+
+  <%= form_with url: reject_admin_ad_creative_path(@ad_creative), method: :post, class: "flex align-center gap" do %>
+    <input type="text" name="reason" class="input" placeholder="Rejection reason" required>
+    <button type="submit" class="btn btn--negative">Reject</button>
+  <% end %>
+</div>

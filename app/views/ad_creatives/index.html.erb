@@ -1,0 +1,45 @@
+<% content_for(:title) { "My Ad Creatives" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to root_path, class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back</span>
+    <% end %>
+
+    <div class="breadcrumbs">
+      <strong>My Ad Creatives</strong>
+    </div>
+  </nav>
+<% end %>
+
+<div class="panel borderless center pad margin-block">
+  <div class="flex align-center justify-space-between margin-block-end">
+    <h1>My Ad Creatives</h1>
+    <%= link_to new_ad_creative_path, class: "btn btn--positive" do %>
+      <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+      <span>New Creative</span>
+    <% end %>
+  </div>
+
+  <% if @ad_creatives.any? %>
+    <div class="flex flex-column gap-half">
+      <% @ad_creatives.each do |creative| %>
+        <div class="flex align-center gap pad-half fill-shade border-radius">
+          <div class="flex-item-grow">
+            <%= link_to creative.headline, ad_creative_path(creative), class: "txt-medium" %>
+            <div class="txt-small txt-subtle">
+              <span class="badge"><%= creative.status.titleize %></span>
+              · <%= creative.destination_url %>
+              <% if creative.rejection_reason.present? %>
+                · <span class="txt-small" style="color: red;"><%= creative.rejection_reason %></span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="txt-subtle">No creatives yet. <%= link_to "Browse the marketplace", marketplace_index_path %> to find ad slots, then create a creative.</p>
+  <% end %>
+</div>

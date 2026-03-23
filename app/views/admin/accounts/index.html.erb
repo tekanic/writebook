@@ -1,0 +1,24 @@
+<% content_for(:title) { "Accounts — Admin" } %>
+
+<h1>Accounts</h1>
+
+<%= form_with url: admin_accounts_path, method: :get, class: "flex align-center gap margin-block" do %>
+  <input type="text" name="q" value="<%= params[:q] %>" class="input" placeholder="Search accounts..." autofocus>
+  <button type="submit" class="btn btn--reversed">Search</button>
+<% end %>
+
+<div class="flex flex-column gap-half">
+  <% @accounts.each do |account| %>
+    <div class="flex align-center gap pad-half fill-shade border-radius">
+      <div class="flex-item-grow">
+        <%= link_to account.name, admin_account_path(account), class: "txt-medium" %>
+        <div class="txt-small txt-subtle">
+          Plan: <%= account.plan&.titleize || "Seed" %>
+          · <%= account.users.count %> users
+          · <%= account.books.count %> publications
+        </div>
+      </div>
+      <%= button_to "Impersonate", impersonate_admin_account_path(account), method: :post, class: "btn btn--small", data: { turbo_confirm: "Impersonate a user on this account?" } %>
+    </div>
+  <% end %>
+</div>

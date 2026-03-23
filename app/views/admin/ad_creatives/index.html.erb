@@ -1,0 +1,26 @@
+<% content_for(:title) { "Ad Review Queue — Admin" } %>
+
+<h1>Ad Review Queue</h1>
+
+<% if @ad_creatives.any? %>
+  <div class="flex flex-column gap-half margin-block">
+    <% @ad_creatives.each do |creative| %>
+      <div class="pad fill-shade border-radius">
+        <div class="flex align-center justify-space-between">
+          <div>
+            <strong><%= creative.headline %></strong>
+            <div class="txt-small txt-subtle">
+              By: <%= creative.advertiser&.name %> · <%= creative.destination_url %>
+              · Submitted: <%= time_ago_in_words(creative.created_at) %> ago
+            </div>
+          </div>
+          <div class="flex align-center gap-half">
+            <%= link_to "Review", admin_ad_creative_path(creative), class: "btn btn--small" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="txt-subtle margin-block">No creatives pending review.</p>
+<% end %>

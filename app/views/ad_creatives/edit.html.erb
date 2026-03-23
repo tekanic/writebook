@@ -1,0 +1,12 @@
+<% content_for(:title) { "Edit Creative — #{@ad_creative.headline}" } %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to ad_creative_path(@ad_creative), class: "btn flex-item-justify-start" do %>
+      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
+      <span class="for-screen-reader">Back</span>
+    <% end %>
+  </nav>
+<% end %>
+
+<%= render "ad_creatives/form", ad_creative: @ad_creative %>
